@@ -37,7 +37,7 @@ export default function LoginForm() {
     if (data.success) {
       // トークンをlocalStorageに保存
       localStorage.setItem('token', data.token);
-      // 管理者か作業者の判別
+      // 管理者か作業者の判別・URL遷移
       router.push(data.role === "admin" ? "/admin" : "/worker");
 
     } else {
