@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/admin/components/app-sidebar";
 import {
-  Calendar,
-  Home,
-  Inbox,
-  LucideIcon,
+  FileText,
+  Users,
+  ClipboardList,
   Search,
   Settings,
+  LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -25,9 +25,9 @@ export type SidebarItem = {
 };
 // Menu items.
 const items: SidebarItem[] = [
-  { title: "日報一覧", url: "#", icon: Home },
-  { title: "作業者一覧", url: "#", icon: Inbox },
-  { title: "工番一覧", url: "#", icon: Calendar },
+  { title: "日報一覧", url: "#", icon: FileText },
+  { title: "作業者一覧", url: "#", icon: Users },
+  { title: "工番一覧", url: "#", icon: ClipboardList },
   { title: "Search", url: "#", icon: Search },
   { title: "Settings", url: "#", icon: Settings },
 ];
