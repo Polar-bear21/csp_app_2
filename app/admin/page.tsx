@@ -29,6 +29,12 @@ async function getData(): Promise<Payment[]> {
       email: "m@example.com",
     },
   ];
+  user.push({
+    id: "728ed52f",
+    amount: 100,
+    status: "pending",
+    email: "m@kuas.com",
+  },)
   for (let i = 1; i < 55; i++) {
     user.push({ ...user[0], amount: user[0].amount+i }); // idにインデックスを加える
   }
@@ -42,7 +48,8 @@ export default async function page() {
   const data = await getData();
   return (
     <div className="container mx-auto">
-      <DataTable columns={columns} data={data} />
+      {/* フィルターを表示するかどうかを選べる */}
+      <DataTable columns={columns} data={data} showButton={true} />
     </div>
   );
 }

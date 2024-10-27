@@ -58,7 +58,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <p>{selectedItem?.title}</p>
         </header>
         {/* <main>{children}</main> */}
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col gap-4 p-8">
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min">
             {children}
           </div>
