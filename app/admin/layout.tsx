@@ -25,9 +25,9 @@ export type SidebarItem = {
 };
 // Menu items.
 const items: SidebarItem[] = [
-  { title: "日報一覧", url: "#", icon: FileText },
-  { title: "作業者一覧", url: "#", icon: Users },
-  { title: "工番一覧", url: "#", icon: ClipboardList },
+  { title: "日報一覧", url: "/admin/", icon: FileText },
+  { title: "作業者一覧", url: "/admin/workers", icon: Users },
+  { title: "工番一覧", url: "/admin/orders", icon: ClipboardList },
   { title: "Search", url: "#", icon: Search },
   { title: "Settings", url: "#", icon: Settings },
 ];
@@ -62,11 +62,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min">
             {children}
           </div>
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+          {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
+          </div> */}
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./components/report-table";
 
+
 // データテーブルProps群
 // データの型を定義
 export type Payment = {
@@ -40,7 +41,7 @@ async function getData(): Promise<Payment[]> {
 export default async function page() {
   const data = await getData();
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto">
       <DataTable columns={columns} data={data} />
     </div>
   );
