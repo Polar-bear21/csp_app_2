@@ -53,8 +53,10 @@ export function DataTable<TData, TValue>({
   data,
   showButton,
 }: DataTableProps<TData, TValue>) {
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});    // 行可視状態
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]); // フィルターボタン
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}); // 行可視状態
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  ); // フィルターボタン
   const table = useReactTable({
     data,
     columns,
@@ -94,6 +96,23 @@ export function DataTable<TData, TValue>({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              {/* ALLオプションの追加 */}
+              <DropdownMenuCheckboxItem
+                key="all"
+                className="capitalize"
+                checked={table
+                  .getAllColumns()
+                  .every((column) => column.getIsVisible())}
+                onCheckedChange={(value) => {
+                  // ALLが選択されたらすべての列を表示
+                  table.getAllColumns().forEach((column) => {
+                    column.toggleVisibility(!!value);
+                  });
+                }}
+              >
+                ALL
+              </DropdownMenuCheckboxItem>
+              
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
