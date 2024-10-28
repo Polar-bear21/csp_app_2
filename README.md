@@ -1,11 +1,4 @@
 ### やることリスト
-- ボタン系
-  - 新規作成ボタン
-  - exportボタン
-  - 一括削除ボタン（テーブルの要素が選択された時）
-- 日報テーブルの作成
-  - ヘッダー
-  - ボディ
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
