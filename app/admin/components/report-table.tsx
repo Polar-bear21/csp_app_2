@@ -22,8 +22,8 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
     <div>
       {/* フィルターボタン群 */}
       <div className="flex items-center justify-between space-x-4 py-4">
-        {/* ボタンの条件付き表示 */}
+        {/* 条件付きフィルター機能 */}
         {showButton && (
           <div className="flex-grow">
             <Input
@@ -112,6 +112,7 @@ export function DataTable<TData, TValue>({
               >
                 ALL
               </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
               
               {table
                 .getAllColumns()

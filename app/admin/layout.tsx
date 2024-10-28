@@ -1,4 +1,4 @@
-// サイドバーとヘッダー
+// サイドバーとヘッダーを配置
 "use client";
 import {
   SidebarInset,
