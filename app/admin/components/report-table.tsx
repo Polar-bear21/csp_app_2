@@ -127,7 +127,7 @@ export function DataTable<TData, TValue>({
                         column.toggleVisibility(!!value)
                       }
                     >
-                      {column.id}
+                      {column.columnDef.header}  {/*エラー出てるけど動いているから無問題 {column.id} */}
                     </DropdownMenuCheckboxItem>
                   );
                 })}

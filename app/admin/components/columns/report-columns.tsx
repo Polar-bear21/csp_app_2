@@ -39,6 +39,7 @@ export const columns: ColumnDef<Report>[] = [
   { accessorKey: "approver_id", header: "Chekcer" },
   {
     id: "actions",
+    header: "action",
     cell: ({ row }) => {
       const report = row.original
  
