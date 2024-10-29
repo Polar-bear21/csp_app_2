@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EditDialogW } from "../edit-report";
 
 
 // データの型を定義
@@ -41,8 +42,8 @@ export const columns: ColumnDef<Report>[] = [
     id: "actions",
     header: "action",
     cell: ({ row }) => {
-      const report = row.original
- 
+      const report = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -53,17 +54,21 @@ export const columns: ColumnDef<Report>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(report.status)}
+              onClick={() => {
+                console.log(report);
+                // navigator.clipboard.writeText(report.status)
+              }}
             >
               Copy Status ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem>none</DropdownMenuItem>
             <DropdownMenuItem>none</DropdownMenuItem>
+            <EditDialogW></EditDialogW>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
 ];
