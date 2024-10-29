@@ -1,7 +1,7 @@
 'use client'
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../components/report-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -53,11 +53,12 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.worker)}
             >
-              Copy payment ID
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit payment
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       )

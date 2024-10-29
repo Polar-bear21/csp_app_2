@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      {/* フィルターボタン群 */}
+      {/* 上部ボタン群 */}
       <div className="flex items-center justify-between space-x-4 py-4">
         {/* 条件付きフィルター機能 */}
         {showButton && (
@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
                 ALL
               </DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
-              
+
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
@@ -127,7 +127,8 @@ export function DataTable<TData, TValue>({
                         column.toggleVisibility(!!value)
                       }
                     >
-                      {column.columnDef.header}  {/*エラー出てるけど動いているから無問題 {column.id} */}
+                      {column.id}{" "}
+                      {/*エラー出てるけど動いているから無問題 {column.columnDef.header} */}
                     </DropdownMenuCheckboxItem>
                   );
                 })}
@@ -210,6 +211,10 @@ export function DataTable<TData, TValue>({
           </Select>
         </div>
         <div className="flex items-center space-x-2">
+          <div>
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
@@ -228,10 +233,6 @@ export function DataTable<TData, TValue>({
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <div>
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </div>
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
