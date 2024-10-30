@@ -101,7 +101,9 @@ export default function AddReportDialog() {
 
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button>日報追加</Button>
+      </DialogTrigger>
 
       <DialogContent>
         <form onSubmit={handleSubmit}>

@@ -2,7 +2,6 @@
 
 import { DataTable } from "./components/report-table";
 import { Report, columns } from "./components/columns/report-columns";
-import { Button } from "@/components/ui/button";
 import AddReportDialog from "./components/addbutton";
 
 // テーブルに表示するデータ
@@ -44,7 +43,6 @@ export default async function page() {
   return (
     <div className="">
       <div className="container mx-auto flex justify-end">
-        <Button></Button>
         <AddReportDialog></AddReportDialog>
       </div>
       <div className="container mx-auto p-0">
