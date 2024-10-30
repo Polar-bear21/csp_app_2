@@ -10,7 +10,12 @@ import AddReportDialog from "./components/addbutton";
 async function getData(): Promise<Report[]> {
   console.log('APIリクエスト開始');
   // Fetch data from your API here.
-  const res = await fetch("http://localhost:3000/api/report-data"); // エラーが出るから絶対パスで指定
+  // エラーが出るから絶対パスで指定
+  // cacheをnoにしないと更新されない
+  const res = await fetch(
+    "http://localhost:3000/api/report-data",
+    { cache: 'no-store' }
+  ); 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
   }
@@ -39,7 +44,7 @@ export default async function page() {
   return (
     <div className="">
       <div className="container mx-auto flex justify-end">
-        <Button>lllll</Button>
+        <Button></Button>
         <AddReportDialog></AddReportDialog>
       </div>
       <div className="container mx-auto p-0">

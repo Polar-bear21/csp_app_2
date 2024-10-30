@@ -1,11 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -27,6 +25,8 @@ import DualNumericInput from "@/components/dual-input";
 export default function AddReportDialog() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [state, setState] = useState("pending");
+  const [workerId, setWorkerId] = useState("");
+  const [projectID, setprojectID] = useState("");
   // スタート時刻状態
   const [startHour, setStartHour] = useState("");
   const [startMinute, setStartMinute] = useState("");
@@ -51,27 +51,53 @@ export default function AddReportDialog() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // フォームのデフォルトの送信を防ぐ
-    console.log(date);
-    console.log(state);
-    console.log({ startHour }, { startMinute });
-    console.log({ endHour }, { endMinute });
-    console.log({ breakHour }, { breakMinute });
-  };
 
-  //   const handleSubmit = async () => {
-  //     try {
-  //       const res = await fetch('/api/addreport', {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify(reportData),
-  //       });
-  //       if (!res.ok) throw new Error('Failed to add report');
-  //       alert('Report added successfully!');
-  //       setIsOpen(false); // Close dialog on success
-  //     } catch (error) {
-  //       console.error('Error adding report:', error);
-  //     }
-  //   };  handleSubmit();
+    const reportData = {
+      date,
+      workerId,
+      projectID,
+      startHour,
+      startMinute,
+      endHour,
+      endMinute,
+      breakHour,
+      breakMinute,
+      state,
+    };
+    try {
+      const res = await fetch("/api/addreport", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reportData),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to add report");
+      }
+
+      alert("Report added successfully!"); // 成功メッセージを表示
+      // 必要に応じて、ダイアログを閉じたり、状態をリセットするロジックを追加することができる
+      // 状態のリセットだけ
+      setDate(undefined);
+      setWorkerId("");
+      setprojectID("");
+      setStartHour("");
+      setStartMinute("");
+      setEndHour("");
+      setEndMinute("");
+      setBreakHour("");
+      setBreakMinute("");
+      setState("pending");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error adding report:", error.message);
+        alert("Error adding report: " + error.message);
+      } else {
+        console.error("Unknown error adding report:", error);
+        alert("Unknown error occurred");
+      }
+    }
+  };
 
   return (
     <Dialog>
@@ -88,12 +114,22 @@ export default function AddReportDialog() {
               <DatePickerDemo date={date} setDate={setDate}></DatePickerDemo>
             </div>
             <div>
-              <Label htmlFor="w-name">作業者名</Label>
-              <Input id="w-name" defaultValue="作業者名" />
+              <Label htmlFor="workerId">作業者ID</Label>
+              <Input
+                id="workerId"
+                defaultValue="作業者ID"
+                value={workerId}
+                onChange={(e) => setWorkerId(e.target.value)}
+              />
             </div>
             <div>
-              <Label htmlFor="p-name">工事名</Label>
-              <Input id="p-name" defaultValue="工事名" />
+              <Label htmlFor="projectID">工事ID</Label>
+              <Input
+                id="projectID"
+                defaultValue="工事ID"
+                value={projectID}
+                onChange={(e) => setprojectID(e.target.value)}
+              />
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
@@ -123,7 +159,10 @@ export default function AddReportDialog() {
             </div>
             <div>
               <Label htmlFor="status">Status</Label>
-              <Select defaultValue="pending" onValueChange={(value) => setState(value)}>
+              <Select
+                defaultValue="pending"
+                onValueChange={(value) => setState(value)}
+              >
                 <SelectTrigger id="status">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
@@ -152,5 +191,5 @@ export default function AddReportDialog() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

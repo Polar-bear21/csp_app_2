@@ -6,6 +6,7 @@ export async function GET() {
     //daily_report、worker、projectテーブルを結合してdaily_reportテーブルを取得
     const [rows] = await pool.query(`
       SELECT * FROM daily_report
+      ORDER BY id DESC
     `);
     return NextResponse.json(rows);
   } catch (error) {
