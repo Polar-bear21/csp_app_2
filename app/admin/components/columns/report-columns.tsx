@@ -61,11 +61,9 @@ export const columns: ColumnDef<Report>[] = [
                 // navigator.clipboard.writeText(report.status)
               }}
             >
-              Copy Status ID
+              Console Log object
             </DropdownMenuItem>
-            <DropdownMenuItem>none</DropdownMenuItem>
-            <DropdownMenuItem>none</DropdownMenuItem>
-            <EditDialogW></EditDialogW>
+            <EditDialogW report={report}></EditDialogW>
           </DropdownMenuContent>
         </DropdownMenu>
       );
