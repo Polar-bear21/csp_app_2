@@ -40,18 +40,21 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
+import AddReportDialog from "./addbutton";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]; // データの定義
   data: TData[]; // 実際の値
   showButton?: boolean; // ボタンの表示を制御するプロパティ
+  filterValue: string;  // どの項目にフィルター機能を付けるか
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   showButton,
+  filterValue,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}); // 行可視状態
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -79,10 +82,10 @@ export function DataTable<TData, TValue>({
             <Input
               placeholder="Filter status..."
               value={
-                (table.getColumn("status")?.getFilterValue() as string) ?? ""
+                (table.getColumn(filterValue)?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("status")?.setFilterValue(event.target.value)
+                table.getColumn(filterValue)?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
             />
