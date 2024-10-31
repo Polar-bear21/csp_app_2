@@ -72,7 +72,8 @@ export default function AddReportDialog() {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to add report");
+        const errorData = await res.json(); // エラーメッセージを取得
+        throw new Error(errorData.message); // エラーメッセージをスロー
       }
 
       alert("Report added successfully!"); // 成功メッセージを表示
