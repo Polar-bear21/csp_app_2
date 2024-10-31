@@ -25,10 +25,10 @@ async function getData(): Promise<Report[]> {
     data: new Date(item.date).toISOString().split("T")[0], // 日付部分のみ抽出
     worker_id: item.worker_id,
     project_id: item.project_id,
-    start_time: item.start_time,
-    end_time: item.end_time,
-    break_time: item.break_time,
-    duration: item.duration,
+    start_time: item.start_time.slice(0, -3),   // 最後の:00を消す
+    end_time: item.end_time.slice(0, -3),
+    break_time: item.break_time!==null? item.break_time.slice(0,-3):item.break_time,
+    duration: item.duration.slice(0,-3),
     status: item.status,
     approver_id: item.approver_id,
   }));
@@ -47,7 +47,7 @@ export default async function page() {
       </div>
       <div className="container mx-auto p-0">
         {/* フィルターを表示するかどうかを選べる */}
-        <DataTable columns={columns} data={data} showButton={true} />
+        <DataTable columns={columns} data={data} showButton={true} filterValue="status"/>
       </div>
     </div>
   );
