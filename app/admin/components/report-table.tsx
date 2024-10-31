@@ -40,7 +40,6 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import AddReportDialog from "./addbutton";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
@@ -142,7 +141,7 @@ export function DataTable<TData, TValue>({
       {/* テーブル本体 */}
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-neutral-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
