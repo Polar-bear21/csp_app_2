@@ -26,7 +26,7 @@ export type Report = {
   status: "pending" | "approved" | "rejected";
   approver_id: number;
 };
-// accessorKeyはPayment型のプロパティと一致する必要がある
+// accessorKeyはデータ型のプロパティと一致する必要がある
 export const columns: ColumnDef<Report>[] = [
   { accessorKey: "id", header: "ID" },
   { accessorKey: "data", header: "日付" },
