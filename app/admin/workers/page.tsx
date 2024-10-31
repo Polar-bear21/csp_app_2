@@ -31,7 +31,7 @@ export default async function page() {
   return (
     <div className="container mx-auto">
       {/* フィルターを表示するかどうかを選べる */}
-      <DataTable columns={columns} data={data} showButton={true} />
+      <DataTable columns={columns} data={data} showButton={false} filterValue=""/>
     </div>
   );
 }
