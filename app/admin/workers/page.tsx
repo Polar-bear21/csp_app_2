@@ -1,4 +1,5 @@
 import { columns, WorkerList } from "../components/columns/workerList-columns";
+import { ExportButton } from "../components/export-workerList";
 import { DataTable } from "../components/report-table";
 
 // テーブルに表示するデータ
@@ -30,6 +31,7 @@ export default async function page() {
   const data = await getData();
   return (
     <div className="container mx-auto">
+      <ExportButton data={data}></ExportButton>
       {/* フィルターを表示するかどうかを選べる */}
       <DataTable columns={columns} data={data} showButton={false} filterValue=""/>
     </div>
