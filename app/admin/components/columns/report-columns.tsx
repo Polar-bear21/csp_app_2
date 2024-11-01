@@ -17,8 +17,8 @@ import { EditDialogW } from "../edit-report";
 export type Report = {
   id: number;
   data: string;
-  worker_id: number;
-  project_id: number;
+  worker_name: number;
+  project_name: number;
   start_time: string;
   end_time: string;
   break_time: string;
@@ -30,8 +30,8 @@ export type Report = {
 export const columns: ColumnDef<Report>[] = [
   { accessorKey: "id", header: "ID" },
   { accessorKey: "data", header: "日付" },
-  { accessorKey: "worker_id", header: "作業者ID" },
-  { accessorKey: "project_id", header: "工番" },
+  { accessorKey: "worker_name", header: "作業者氏名" },
+  { accessorKey: "project_name", header: "工番" },
   { accessorKey: "start_time", header: "開始時刻" },
   { accessorKey: "end_time", header: "終了時刻" },
   { accessorKey: "break_time", header: "休憩時間" },

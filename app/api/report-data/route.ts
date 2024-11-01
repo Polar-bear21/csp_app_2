@@ -5,8 +5,21 @@ export async function GET() {
   try {
     //daily_report、worker、projectテーブルを結合してdaily_reportテーブルを取得
     const [rows] = await pool.query(`
-      SELECT * FROM daily_report
-      ORDER BY id DESC
+      SELECT 
+        daily_report.id,
+        daily_report.date,
+        worker.name AS worker_name,
+        project.name AS project_name,
+        daily_report.start_time,
+        daily_report.end_time,
+        daily_report.duration,
+        daily_report.break_time,
+        daily_report.status,
+        daily_report.approver_id
+      FROM daily_report
+      JOIN worker ON daily_report.worker_id = worker.id
+      JOIN project ON daily_report.project_id = project.id
+      ORDER BY daily_report.id DESC
     `);
     return NextResponse.json(rows);
   } catch (error) {
