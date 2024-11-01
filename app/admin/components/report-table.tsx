@@ -30,6 +30,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  Eye,
 } from "lucide-react";
 import {
   Select,
@@ -40,13 +41,15 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]; // データの定義
   data: TData[]; // 実際の値
   showButton?: boolean; // ボタンの表示を制御するプロパティ
-  filterValue: string;  // どの項目にフィルター機能を付けるか
+  filterValue: string; // フィルタリング対象の列名
+  filterLabel: string; // フィルタリング用の表示名
 }
 
 export function DataTable<TData, TValue>({
@@ -54,6 +57,7 @@ export function DataTable<TData, TValue>({
   data,
   showButton,
   filterValue,
+  filterLabel,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}); // 行可視状態
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -74,27 +78,28 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       {/* 上部ボタン群 */}
-      <div className="flex items-center justify-between space-x-4 py-4">
+      <div className="flex items-center space-x-4 py-4">
         {/* 条件付きフィルター機能 */}
         {showButton && (
-          <div className="flex-grow">
+          <div>
             <Input
-              placeholder="Filter status..."
+              placeholder={`${filterLabel} 検索`}
               value={
                 (table.getColumn(filterValue)?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
                 table.getColumn(filterValue)?.setFilterValue(event.target.value)
               }
-              className="max-w-sm"
+              className="max-w-sm h-10"
             />
           </div>
         )}
-        <div className="ml-auto">
+        <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Columns
+              <Button variant="outline" className="ml-autos h-10">
+                <Eye className="icon" />
+                View
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -123,7 +128,7 @@ export function DataTable<TData, TValue>({
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
-                      className="capitalize"
+                      // className="capitalize"
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) =>
                         column.toggleVisibility(!!value)
@@ -168,9 +173,31 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                      {/* statusかどうかで普通の文字かバッチか決める */}
+                      {/*元の形 -> {flexRender(cell.column.columnDef.cell, cell.getContext())} */}
+                      {cell.column.columnDef.accessorKey === "status" ? (
+                        <div className="flex items-center">
+                          {cell.getValue() === "approved" && (
+                            <Badge className="bg-emerald-400 text-white hover:bg-green-600">
+                              Approved
+                            </Badge>
+                          )}
+                          {cell.getValue() === "pending" && (
+                            <Badge className="bg-amber-400 text-white hover:bg-yellow-600">
+                              Pending
+                            </Badge>
+                          )}
+                          {cell.getValue() === "rejected" && (
+                            <Badge className="bg-rose-400 text-white hover:bg-red-600">
+                              Rejected
+                            </Badge>
+                          )}
+                        </div>
+                      ) : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
                       )}
                     </TableCell>
                   ))}
@@ -193,7 +220,7 @@ export function DataTable<TData, TValue>({
       {/* テーブル下のボタン群 */}
       <div className="flex items-center justify-between space-x-2 py-4">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">表示件数</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
