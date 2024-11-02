@@ -1,11 +1,3 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "overrides": [
-    {
-      "files": ["report-table.tsx"], // またはあなたのファイル名
-      "rules": {
-        "no-unused-expressions": "off"
-      }
-    }
-  ]
+  "extends": ["next/core-web-vitals", "next/typescript"]
 }
