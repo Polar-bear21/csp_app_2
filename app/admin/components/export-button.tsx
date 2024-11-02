@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
 // excelフォーマットを作成
-const exportToExcel = (data: any[][], fileName: string) => {
+const exportToExcel = (data: Array<Array<string | number | undefined>>, fileName: string) => {
   const worksheet = XLSX.utils.aoa_to_sheet(data);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");

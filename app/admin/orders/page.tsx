@@ -12,11 +12,13 @@ async function getData(): Promise<ProjectList[]> {
     throw new Error("Failed to fetch data");
   }
   const data = await res.json();
-  const projectList: ProjectList[] = data.map((item: any) => ({
-    id: item.project_id,
-    project_names: item.project_name,
-    workers: item.worker_names,
-  }));
+  const projectList: ProjectList[] = data.map(
+    (item: {project_id: number; project_name: string; worker_names: string }) => ({
+      id: item.project_id,
+      project_names: item.project_name,
+      workers: item.worker_names,
+    })
+  );
 
   return projectList;
   // ...

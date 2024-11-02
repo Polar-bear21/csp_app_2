@@ -2,6 +2,15 @@ import { columns, WorkerList } from "../components/columns/workerList-columns";
 import { Export_Wbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";
 
+// 取得する方のworkerList型の指定
+interface RawWorkerListData {
+  id: number;
+  worker_name: string;
+  company_name: string;
+  user_id: string;
+  project_names: string | null;
+}
+
 // テーブルに表示するデータ
 async function getData(): Promise<WorkerList[]> {
   // Fetch data from your API here.
@@ -13,7 +22,7 @@ async function getData(): Promise<WorkerList[]> {
   }
   const data = await res.json();
   console.log("APIリクエスト完了");
-  const workerList: WorkerList[] = data.map((item: any) => ({
+  const workerList: WorkerList[] = data.map((item: RawWorkerListData) => ({
     id: item.id,
     worker_name: item.worker_name,
     company_name: item.company_name,
