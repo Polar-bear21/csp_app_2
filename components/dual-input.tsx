@@ -42,7 +42,6 @@ export default function DualNumericInput({ hours, minutes, onTimeChange }: DualN
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, isFirstInput: boolean) => {
-    const target = e.currentTarget;
     // Enterで次のフィールドに移動
     if (e.key === 'Enter') {
       e.preventDefault()

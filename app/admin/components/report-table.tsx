@@ -175,7 +175,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {/* statusかどうかで普通の文字かバッチか決める */}
                       {/*元の形 -> {flexRender(cell.column.columnDef.cell, cell.getContext())} */}
-                      {cell.column.columnDef.accessorKey === "status" ? (
+                      {cell.column.columnDef.header === "Status" ? (
                         <div className="flex items-center">
                           {cell.getValue() === "approved" && (
                             <Badge className="bg-emerald-400 text-white hover:bg-green-600">

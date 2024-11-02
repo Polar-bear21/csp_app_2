@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     );
 
     // 組み合わせが存在しない場合はエラーを返す
-    if (rows.length === 0) {
+    if (Array.isArray(rows) && rows.length === 0) {
       return NextResponse.json(
         { message: `Error: Worker ID ${worker_id} is not assigned to Project ID ${project_id}.`  },
         { status: 400 }
