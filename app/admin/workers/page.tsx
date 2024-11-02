@@ -28,16 +28,20 @@ async function getData(): Promise<WorkerList[]> {
 export default async function page() {
   const data = await getData();
   return (
-    <div className="container mx-auto">
-      <Export_Wbutton data={data}></Export_Wbutton>
-      {/* フィルターを表示するかどうかを選べる */}
-      <DataTable
-        columns={columns}
-        data={data}
-        showButton={true}
-        filterValue="worker_name"
-        filterLabel="氏名"
-      />
+    <div>
+      <div className="container mx-auto flex justify-end space-x-4">
+        <Export_Wbutton data={data}></Export_Wbutton>
+      </div>
+      <div className="container mx-auto">
+        {/* フィルターを表示するかどうかを選べる */}
+        <DataTable
+          columns={columns}
+          data={data}
+          showButton={true}
+          filterValue="worker_name"
+          filterLabel="氏名"
+        />
+      </div>
     </div>
   );
 }

@@ -1,13 +1,11 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Report } from "./columns/report-columns";
+import { Input } from "@/components/ui/input";
 
 export function EditDialogW({report}: { report: Report }) {
   return (
@@ -21,6 +19,7 @@ export function EditDialogW({report}: { report: Report }) {
       <DialogContent>
         This is a modal.
         <div>{report.id}</div>
+        <Input placeholder={`${report.id} 検索`}></Input>
       </DialogContent>
     </Dialog>
   );

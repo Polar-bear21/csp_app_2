@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EditDialogW } from "../edit-report";
 
 // データ型の定義
 export type WorkerList = {

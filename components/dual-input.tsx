@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react'
+import React, { useRef, ChangeEvent, KeyboardEvent } from 'react'
 import { Input } from "@/components/ui/input"
 
 interface DualNumericInputProps {
@@ -43,7 +43,6 @@ export default function DualNumericInput({ hours, minutes, onTimeChange }: DualN
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, isFirstInput: boolean) => {
     const target = e.currentTarget;
-    const cursorPosition = target.selectionStart;
     // Enterで次のフィールドに移動
     if (e.key === 'Enter') {
       e.preventDefault()

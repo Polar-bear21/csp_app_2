@@ -69,11 +69,38 @@ const handleExportProjects = (data: ProjectList[]) => {
 
 // export excelボタン群
 export function Export_Rbutton({ data }: { data: Report[] }) {
-  return <Button onClick={() => handleExportReports(data)}><Download/>Export Excel File</Button>;
+  return (
+    <Button
+      onClick={() => handleExportReports(data)}
+      variant="outline"
+      className="shadow-sm"
+    >
+      <Download />
+      Export Excel File
+    </Button>
+  );
 }
 export function Export_Wbutton({ data }: { data: WorkerList[] }) {
-  return <button onClick={() => handleExportWorkers(data)}>ooooooooo</button>;
+  return (
+    <Button
+      onClick={() => handleExportWorkers(data)}
+      variant="outline"
+      className="shadow-sm"
+    >
+      <Download />
+      Export Excel File
+    </Button>
+  );
 }
 export function Export_Pbutton({ data }: { data: ProjectList[] }) {
-  return <button onClick={() => handleExportProjects(data)}>ooooooooo</button>;
+  return (
+    <Button
+      onClick={() => handleExportProjects(data)}
+      variant="outline"
+      className="shadow-sm"
+    >
+      <Download />
+      Export Excel File
+    </Button>
+  );
 }

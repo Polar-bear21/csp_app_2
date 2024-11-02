@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DualNumericInput from "@/components/dual-input";
+import { Plus } from "lucide-react";
 
 export default function AddReportDialog() {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -103,7 +104,7 @@ export default function AddReportDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>日報追加</Button>
+        <Button className="shadow-sm"><Plus></Plus>日報追加</Button>
       </DialogTrigger>
 
       <DialogContent>

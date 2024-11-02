@@ -25,16 +25,20 @@ async function getData(): Promise<ProjectList[]> {
 export default async function page() {
   const data = await getData();
   return (
-    <div className="container mx-auto">
-      <Export_Pbutton data={data}></Export_Pbutton>
-      {/* フィルターを表示するかどうかを選べる */}
-      <DataTable
-        columns={columns}
-        data={data}
-        showButton={true}
-        filterValue="project_names"
-        filterLabel="工番"
-      />
+    <div>
+      <div className="container mx-auto flex justify-end space-x-4">
+        <Export_Pbutton data={data}></Export_Pbutton>
+      </div>
+      <div className="container mx-auto p-0">
+        {/* フィルターを表示するかどうかを選べる */}
+        <DataTable
+          columns={columns}
+          data={data}
+          showButton={true}
+          filterValue="project_names"
+          filterLabel="工番"
+        />
+      </div>
     </div>
   );
 }

@@ -43,9 +43,9 @@ export default async function page() {
 
   return (
     <div className="">
-      <Export_Rbutton data={data}></Export_Rbutton>
-      <div className="container mx-auto flex justify-end">
-        <AddReportDialog></AddReportDialog>
+      <div className="container mx-auto flex justify-end space-x-4">
+        <Export_Rbutton data={data} />
+        <AddReportDialog />
       </div>
       <div className="container mx-auto p-0">
         {/* フィルターを表示するかどうかを選べる */}
