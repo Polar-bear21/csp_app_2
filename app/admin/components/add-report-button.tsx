@@ -23,7 +23,7 @@ import {
 import DualNumericInput from "@/components/dual-input";
 import { Plus } from "lucide-react";
 
-export default function AddReportDialog() {
+export function AddReportDialog() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [state, setState] = useState("pending");
   const [workerId, setWorkerId] = useState("");
@@ -112,7 +112,7 @@ export default function AddReportDialog() {
           <DialogHeader>
             <DialogTitle>新しい日報を追加</DialogTitle>
           </DialogHeader>
-          <div className="grid flex-2 space-y-4 mb-4">
+          <div className="grid flex-2 space-y-4 py-8">
             <div>
               <Label>作業日</Label>
               <DatePickerDemo date={date} setDate={setDate}></DatePickerDemo>
@@ -124,7 +124,10 @@ export default function AddReportDialog() {
                 defaultValue="作業者ID"
                 value={workerId}
                 onChange={(e) => setWorkerId(e.target.value)}
+                type="number"
+                min={0}
               />
+              <p className="text-xs text-gray-500">半角英数字</p>
             </div>
             <div>
               <Label htmlFor="projectID">工事ID</Label>
@@ -133,7 +136,10 @@ export default function AddReportDialog() {
                 defaultValue="工事ID"
                 value={projectID}
                 onChange={(e) => setprojectID(e.target.value)}
+                type="number"
+                min={0}
               />
+              <p className="text-xs text-gray-500">半角英数字</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
