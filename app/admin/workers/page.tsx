@@ -1,3 +1,4 @@
+import { AddWorkerDialog } from "../components/add-worker-button";
 import { columns, WorkerList } from "../components/columns/workerList-columns";
 import { Export_Wbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";
@@ -39,7 +40,8 @@ export default async function page() {
   return (
     <div>
       <div className="container mx-auto flex justify-end space-x-4">
-        <Export_Wbutton data={data}></Export_Wbutton>
+        <Export_Wbutton data={data} />
+        <AddWorkerDialog />
       </div>
       <div className="container mx-auto">
         {/* フィルターを表示するかどうかを選べる */}

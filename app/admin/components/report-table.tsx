@@ -41,7 +41,6 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
@@ -134,7 +133,7 @@ export function DataTable<TData, TValue>({
                         column.toggleVisibility(!!value)
                       }
                     >
-                      {column.id}{" "}
+                      {typeof column.columnDef.header === 'string' ? column.columnDef.header : ''}{" "}
                       {/*エラー出てるけど動いているから無問題 {column.columnDef.header} */}
                     </DropdownMenuCheckboxItem>
                   );
@@ -173,9 +172,8 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {/* statusかどうかで普通の文字かバッチか決める */}
-                      {/*元の形 -> {flexRender(cell.column.columnDef.cell, cell.getContext())} */}
-                      {cell.column.columnDef.header === "Status" ? (
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {/* {cell.column.columnDef.header === "Status" ? (
                         <div className="flex items-center">
                           {cell.getValue() === "approved" && (
                             <Badge className="bg-emerald-400 text-white hover:bg-green-600">
@@ -198,7 +196,7 @@ export function DataTable<TData, TValue>({
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )
-                      )}
+                      )} */}
                     </TableCell>
                   ))}
                 </TableRow>

@@ -31,7 +31,7 @@ const handleExportReports = (data: Report[]) => {
   ];
   const rows = data.map((item) => [
     item.id,
-    item.data,
+    item.date,
     item.worker_name,
     item.project_name,
     item.start_time,

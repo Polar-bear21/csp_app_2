@@ -1,7 +1,7 @@
 // daily-reportテーブル
 import { DataTable } from "./components/report-table";
 import { Report, columns } from "./components/columns/report-columns";
-import AddReportDialog from "./components/addbutton";
+import { AddReportDialog } from "./components/add-report-button";
 import { Export_Rbutton } from "./components/export-button";
 
 // 取得する方のdaily_report型の指定
@@ -65,8 +65,8 @@ export default async function page() {
           columns={columns}
           data={data}
           showButton={true}
-          filterValue="status"
-          filterLabel="Status"
+          filterValue="worker_name"
+          filterLabel="作業者"
         />
       </div>
     </div>
