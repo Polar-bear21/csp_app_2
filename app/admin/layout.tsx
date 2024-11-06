@@ -29,7 +29,7 @@ const items: SidebarItem[] = [
   { title: "作業者一覧", url: "/admin/workers", icon: Users },
   { title: "工番一覧", url: "/admin/orders", icon: ClipboardList },
   { title: "Search", url: "#", icon: Search },
-  { title: "Settings", url: "#", icon: Settings },
+  { title: "test-screen", url: "/admin/test-screen", icon: Settings },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
