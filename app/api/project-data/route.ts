@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
-import pool from "@/lib/db"; // データベースの接続プールをインポート
+// import pool from "@/lib/db"; // データベースの接続プールをインポート
+import client from '@/lib/db';
 
 export async function GET() {
   try {
     //daily_report、worker、projectテーブルを結合してdaily_reportテーブルを取得
-    const [rows] = await pool.query(`
+    const rows = await client.query(`
       SELECT 
         p.id AS project_id,
         p.name AS project_name,
-        GROUP_CONCAT(w.name ORDER BY w.name SEPARATOR ', ') AS worker_names
+        string_agg(w.name, ', ' ORDER BY w.name) AS worker_names
       FROM 
         project AS p
       JOIN 
@@ -20,7 +21,7 @@ export async function GET() {
       ORDER BY 
         p.id;
     `);
-    return NextResponse.json(rows);
+    return NextResponse.json(rows.rows);
   } catch (error) {
     console.error("データ取得エラー:", error);
     return NextResponse.json(

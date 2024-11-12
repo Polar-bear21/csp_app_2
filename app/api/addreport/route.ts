@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import pool from '@/lib/db';
+import client from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const breakTime = `${breakHour}:${breakMinute}`;
 
     // worker_project テーブルに指定の worker_id と project_id が存在するか確認
-    const [rows] = await pool.query(
+    const rows = await client.query(
       `SELECT 1 FROM worker_project WHERE worker_id = ? AND project_id = ?`,
       [worker_id, project_id]
     );
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     // クエリを実行
-    await pool.query(query, [formattedDate, worker_id, project_id, startTime, endTime, breakTime, state]);
+    await client.query(query, [formattedDate, worker_id, project_id, startTime, endTime, breakTime, state]);
 
     // 成功レスポンスを返す
     return NextResponse.json({ message: 'Report added successfully!' }, { status: 201 });
