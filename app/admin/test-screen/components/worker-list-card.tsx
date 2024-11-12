@@ -20,6 +20,7 @@ export function WorkerCard({
 }: WorkerData) {
   return (
     <Card className="min-h-full">
+      <CardTitle></CardTitle>
       <CardHeader>
         <div className="flex justify-between  items-start">
           <div>
