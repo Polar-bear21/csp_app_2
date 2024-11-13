@@ -5,7 +5,7 @@ import { DataTable } from "../components/report-table";
 // テーブルに表示するデータ
 async function getData(): Promise<ProjectList[]> {
   // Fetch data from your API here.
-  const res = await fetch("http://localhost:3000/api/project-data", {
+  const res = await fetch("https://csp-app-2.vercel.app/api/project-data", {
     cache: "no-store",
   });
   if (!res.ok) {

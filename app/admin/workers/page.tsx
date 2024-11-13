@@ -15,7 +15,7 @@ interface RawWorkerListData {
 // テーブルに表示するデータ
 async function getData(): Promise<WorkerList[]> {
   // Fetch data from your API here.
-  const res = await fetch("http://localhost:3000/api/worker-data", {
+  const res = await fetch("https://csp-app-2.vercel.app/api/worker-data", {
     cache: "no-store",
   });
   if (!res.ok) {
