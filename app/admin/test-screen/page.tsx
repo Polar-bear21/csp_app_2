@@ -20,7 +20,9 @@ export interface WorkerData  {
 // テーブルに表示するデータ
 async function getData() {
   // Fetch data from your API here.
-  const res = await fetch("https://csp-app-2.vercel.app/api/worker-data", {
+  
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const res = await fetch(`${baseUrl}/api/worker-data`, {
     cache: "no-store",
   });
   if (!res.ok) {

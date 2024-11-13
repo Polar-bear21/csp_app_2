@@ -26,12 +26,14 @@ export async function POST(request: Request) {
     const startTime = `${startHour}:${startMinute}`;
     const endTime = `${endHour}:${endMinute}`;
     const breakTime = `${breakHour}:${breakMinute}`;
+    // console.log(formattedDate, worker_id, project_id, startTime, endTime, breakTime, state);
 
     // worker_project テーブルに指定の worker_id と project_id が存在するか確認
     const rows = await client.query(
       `SELECT 1 FROM worker_project WHERE worker_id = ? AND project_id = ?`,
       [worker_id, project_id]
     );
+
 
     // 組み合わせが存在しない場合はエラーを返す
     if (Array.isArray(rows) && rows.length === 0) {

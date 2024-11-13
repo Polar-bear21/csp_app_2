@@ -17,7 +17,6 @@ interface RawReportData {
   status: string | null;
   approver_id: number | null;
 }
-//  kdk
 
 // テーブルに表示するデータ: データの型は admin/componets/columnsで確認
 async function getData(): Promise<Report[]> {
@@ -25,7 +24,8 @@ async function getData(): Promise<Report[]> {
   // Fetch data from your API here.
   // エラーが出るから絶対パスで指定
   // cacheをnoにしないと更新されない
-  const res = await fetch("https://csp-app-2.vercel.app/api/report-data", {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const res = await fetch(`${baseUrl}/api/report-data`, {
     cache: "no-store",
   });
   if (!res.ok) {
