@@ -17,6 +17,7 @@ interface RawReportData {
   status: string | null;
   approver_id: number | null;
 }
+//  kdk
 
 // テーブルに表示するデータ: データの型は admin/componets/columnsで確認
 async function getData(): Promise<Report[]> {
