@@ -5,7 +5,6 @@ import { DataTable } from "../components/report-table";
 // テーブルに表示するデータ
 async function getData(): Promise<ProjectList[]> {
   // Fetch data from your API here.
-  
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const res = await fetch(`${baseUrl}/api/project-data`, {
     cache: "no-store",
