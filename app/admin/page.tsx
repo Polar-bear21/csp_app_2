@@ -4,7 +4,7 @@ import { Report, columns } from "./components/columns/report-columns";
 import { AddReportDialog } from "./components/add-report-button";
 import { Export_Rbutton } from "./components/export-button";
 
-// 取得する方のdaily_report型の指定
+// 取得する方のdaily_report型の指定l
 interface RawReportData {
   id: number;
   date: string;
