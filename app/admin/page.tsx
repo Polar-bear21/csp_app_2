@@ -24,7 +24,7 @@ async function getData(): Promise<Report[]> {
   // Fetch data from your API here.
   // エラーが出るから絶対パスで指定
   // cacheをnoにしないと更新されない
-  const res = await fetch("http://localhost:3000/api/report-data", {
+  const res = await fetch("https://csp-app-2-6c4iv6wxv-polar-bear21s-projects.vercel.app/api/report-data", {
     cache: "no-store",
   });
   if (!res.ok) {
