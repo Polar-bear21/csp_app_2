@@ -14,11 +14,11 @@ import { Client } from 'pg';
 
 // Supabaseの接続情報を設定
 const client = new Client({
-  user: 'postgres.fjgngzsgyomzgknfgdzm', // Supabaseのユーザー名
-  host: 'aws-0-ap-northeast-1.pooler.supabase.com', // Supabaseのホスト
-  database: 'postgres', // Supabaseのデータベース名
-  password: 'Nippo24c16_', // Supabaseのパスワード
-  port: 6543, // 通常のPostgreSQLのポート番号
+  user: process.env.SUPABASE_USER, // Supabaseのユーザー名
+  host: process.env.SUPABASE_HOST, // Supabaseのホスト
+  database: process.env.SUPABASE_DATABASE, // Supabaseのデータベース名
+  password: process.env.SUPABASE_PASSWORD, // Supabaseのパスワード
+  port: parseInt(process.env.SUPABASE_PORT || '5432' ), // 通常のPostgreSQLのポート番号
 });
 
 client.connect()
