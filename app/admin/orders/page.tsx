@@ -1,3 +1,4 @@
+import { AddOrderDialog } from "../components/add-order-button";
 import { columns, ProjectList } from "../components/columns/orderList-columns";
 import { Export_Pbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";
@@ -14,9 +15,10 @@ async function getData(): Promise<ProjectList[]> {
   }
   const data = await res.json();
   const projectList: ProjectList[] = data.map(
-    (item: {project_id: number; project_name: string; worker_names: string }) => ({
+    (item: {project_id: number; project_name: string; project_code: string; worker_names: string }) => ({
       id: item.project_id,
       project_names: item.project_name,
+      project_code: item.project_code,
       workers: item.worker_names,
     })
   );
@@ -31,6 +33,7 @@ export default async function page() {
     <div>
       <div className="container mx-auto flex justify-end space-x-4">
         <Export_Pbutton data={data}></Export_Pbutton>
+        <AddOrderDialog></AddOrderDialog>
       </div>
       <div className="container mx-auto p-0">
         {/* フィルターを表示するかどうかを選べる */}
