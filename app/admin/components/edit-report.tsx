@@ -19,7 +19,6 @@ export function EditDialogW({report}: { report: Report }) {
       <DialogContent>
         This is a modal.
         <div>{report.id}</div>
-        <Input placeholder={`${report.id} 検索`}></Input>
       </DialogContent>
     </Dialog>
   );

@@ -18,40 +18,59 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronsUpDown, Plus } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, Search, X } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEffect} from "react";
-import { ProjectList } from "./columns/orderList-columns";
+
+type Item = {
+  id: string;
+  label: string;
+};
+const items: Item[] = [
+  { id: "1", label: "P001" },
+  { id: "2", label: "P002" },
+  { id: "3", label: "P003" },
+  { id: "4", label: "P004" },
+  { id: "5", label: "P005" },
+  { id: "6", label: "P006" },
+  { id: "7", label: "P007" },
+  { id: "8", label: "P008" },
+  { id: "9", label: "P009" },
+  { id: "10", label: "P0010" },
+];
 
 export function AddWorkerDialog() {
-  async function getData(): Promise<ProjectList[]> {
-    // Fetch data from your API here.
-    const res = await fetch("http://localhost:3000/api/project-data", {
-      cache: "no-store",
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const handleCheckboxChange = (id: string) => {
+    setSelectedItems((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        // 既に選択されている場合は削除
+        return prevSelected.filter((itemId) => itemId !== id);
+      } else {
+        // 選択されていない場合は追加
+        return [...prevSelected, id];
+      }
     });
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    const data = await res.json();
-    const projectList: ProjectList[] = data.map(
-      (item: { project_id: number; project_name: string }) => ({
-        id: item.project_id,
-        project_names: item.project_name,
-      })
-    );
-    return projectList;
-  }
-  useEffect(() => {
-    const data = getData();
-    console.log(data);
-  });
+  };
+  const handleCheckboxClere = () => {
+    setSelectedItems([]);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -90,30 +109,91 @@ export function AddWorkerDialog() {
             </div>
             <div>
               <Label htmlFor="new_password">Password</Label>
-              <Input id="new_password" />
+              <Input id="new_password" type="password"/>
               <p className="text-xs text-gray-500">ログイン用password</p>
             </div>
             <div>
               <Label htmlFor="project">可能工番</Label>
               <DropdownMenu>
-                <DropdownMenuTrigger id="project" asChild>
-                  <Button className="w-full justify-between" variant="outline">
-                    Open
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {selectedItems.length > 0
+                      ? `${selectedItems.length} selected`
+                      : "工番選択"}
                     <ChevronsUpDown className=" opacity-50" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="">
-                  <DropdownMenuLabel>工番</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem >
-                    Status Bar
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>
-                    Activity Bar
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>Panel</DropdownMenuCheckboxItem>
+                <DropdownMenuContent className="w-80 h-100 p-0" align="end">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search framework..."
+                      className="w-full"
+                    />
+                    <CommandList>
+                      <CommandEmpty>Not found.</CommandEmpty>
+
+                      <CommandGroup className="space-y-1">
+                        {items.map((item) => (
+                          <CommandItem
+                            key={item.id}
+                            value={item.label}
+                            onSelect={() => handleCheckboxChange(item.id)}
+                          >
+                            <div
+                              className={cn(
+                                "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                selectedItems.includes(item.id)
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              )}
+                            >
+                              <Check />
+                            </div>
+                            {item.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                    {selectedItems.length > 0 && (
+                      <div>
+                        <CommandSeparator />
+                        <CommandGroup>
+                          <CommandItem
+                            className="justify-center text-center"
+                            onSelect={() => handleCheckboxClere()}
+                          >
+                            Clear
+                          </CommandItem>
+                        </CommandGroup>
+                      </div>
+                    )}
+                  </Command>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {selectedItems.map((itemId) => {
+                  const item = items.find((i) => i.id === itemId);
+                  return (
+                    <div key={itemId}>
+                      <Badge
+                        key={itemId}
+                        variant="secondary"
+                        className="py-1 px-2"
+                      >
+                        {item?.label}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="ml-1 h-auto p-0"
+                          onClick={() => handleCheckboxChange(itemId)}
+                        >
+                          <X className="h-3 w-3"></X>
+                        </Button>
+                      </Badge>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row sm:justify-between gap-4">
@@ -135,3 +215,5 @@ export function AddWorkerDialog() {
     </Dialog>
   );
 }
+
+//*
