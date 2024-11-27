@@ -15,12 +15,14 @@ import { Button } from "@/components/ui/button";
 export type ProjectList = {
     id: number;
     project_names: string;
+    project_code: string;
     workers: string;
 }
 // accessorKeyはデータ型のプロパティと一致する必要がある
 export const columns: ColumnDef<ProjectList>[] = [
     { accessorKey: "id", header: "ID" },
     { accessorKey: "project_names", header: "名称" },
+    { accessorKey: "project_code", header: "工番"},
     { accessorKey: "workers", header: "作業者" },
     {
       id: "actions",
