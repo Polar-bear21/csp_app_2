@@ -12,6 +12,7 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EditDialogW } from "../edit-report";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // データの型を定義
 export type Report = {
@@ -28,6 +29,26 @@ export type Report = {
 };
 // accessorKeyはデータ型のプロパティと一致する必要がある
 export const columns: ColumnDef<Report>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    )
+  },
   { accessorKey: "id", header: "ID" },
   { accessorKey: "date", header: "日付" },
   { accessorKey: "worker_name", header: "作業者氏名" },
