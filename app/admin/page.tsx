@@ -1,7 +1,7 @@
 // daily-reportテーブル
 import { DataTable } from "./components/report-table";
 import { Report, columns } from "./components/columns/report-columns";
-import { AddReportDialog } from "./components/add-report-button";
+import { AddReportDialog } from "./components/add/add-report-button";
 import { Export_Rbutton } from "./components/export-button";
 
 // 取得する方のdaily_report型の指定l

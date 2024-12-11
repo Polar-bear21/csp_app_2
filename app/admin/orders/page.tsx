@@ -1,4 +1,4 @@
-import { AddOrderDialog } from "../components/add-order-button";
+import { AddOrderDialog } from "../components/add/add-order-button";
 import { columns, ProjectList } from "../components/columns/orderList-columns";
 import { Export_Pbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";

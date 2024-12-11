@@ -8,24 +8,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { Delete, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EditDialogW } from "../edit-report";
+import { EditDialogP } from "../edit/edit-report";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DeleteDialogR } from "../delete/delete-report";
 
 // データの型を定義
 export type Report = {
   id: number;
   date: string;
-  worker_name: number;
-  project_name: number;
+  worker_name: string;
+  project_name: string;
   start_time: string;
   end_time: string;
   break_time: string;
   duration: string;
   status: "pending" | "approved" | "rejected";
-  approver_id: number;
+  approver_id: number | null;
 };
 // accessorKeyはデータ型のプロパティと一致する必要がある
 export const columns: ColumnDef<Report>[] = [
@@ -137,7 +138,8 @@ export const columns: ColumnDef<Report>[] = [
             >
               Console Log object
             </DropdownMenuItem>
-            <EditDialogW report={report}></EditDialogW>
+            <EditDialogP report={report}></EditDialogP>
+            <DeleteDialogR report_id={report.id}></DeleteDialogR>
           </DropdownMenuContent>
         </DropdownMenu>
       );
