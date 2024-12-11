@@ -31,6 +31,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Eye,
+  Search,
 } from "lucide-react";
 import {
   Select,
@@ -41,6 +42,13 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandList,
+} from "@/components/ui/command";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
@@ -80,7 +88,8 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center space-x-4 py-4">
         {/* 条件付きフィルター機能 */}
         {showButton && (
-          <div>
+          <div className="relative max-w-sm">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
             <Input
               placeholder={`${filterLabel} 検索`}
               value={
@@ -89,7 +98,7 @@ export function DataTable<TData, TValue>({
               onChange={(event) =>
                 table.getColumn(filterValue)?.setFilterValue(event.target.value)
               }
-              className="max-w-sm h-10"
+              className="pl-8 h-10"
             />
           </div>
         )}
@@ -122,7 +131,11 @@ export function DataTable<TData, TValue>({
 
               {table
                 .getAllColumns()
-                .filter((column) => column.getCanHide())
+                .filter(
+                  (column) =>
+                    typeof column.accessorFn !== "undefined" &&
+                    column.getCanHide()
+                )
                 .map((column) => {
                   return (
                     <DropdownMenuCheckboxItem
@@ -133,14 +146,39 @@ export function DataTable<TData, TValue>({
                         column.toggleVisibility(!!value)
                       }
                     >
-                      {typeof column.columnDef.header === 'string' ? column.columnDef.header : ''}{" "}
-                      {/*エラー出てるけど動いているから無問題 {column.columnDef.header} */}
+                      {typeof column.columnDef.header === "string"
+                        ? column.columnDef.header
+                        : ""}
                     </DropdownMenuCheckboxItem>
                   );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        {/* Status フィルタリングドロップダウン */}
+        {table.getColumn("status") && (
+          <div className="flex items-center space-x-2">
+            <Select
+              // value={
+              //   (table.getColumn("status")?.getFilterValue() as string) ?? ""
+              // }
+              onValueChange={(value) =>
+                table.getColumn("status")?.setFilterValue(value)
+              }
+            >
+              <SelectTrigger className="w-[150px]">
+                <SelectValue placeholder="status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={null}>All</SelectItem>
+                <SelectItem value="approved">承認済み</SelectItem>
+                <SelectItem value="pending">保留中</SelectItem>
+                <SelectItem value="rejected">却下</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+        
       </div>
       {/* テーブル本体 */}
       <div className="rounded-md border">
@@ -172,7 +210,10 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                       {/* {cell.column.columnDef.header === "Status" ? (
                         <div className="flex items-center">
                           {cell.getValue() === "approved" && (
