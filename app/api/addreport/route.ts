@@ -9,12 +9,9 @@ export async function POST(request: Request) {
       date,
       workerId,
       projectID,
-      startHour,
-      startMinute,
-      endHour,
-      endMinute,
-      breakHour,
-      breakMinute,
+      start_time,
+      end_time,
+      break_time,
       state,
     } = await request.json();
 
@@ -29,10 +26,6 @@ export async function POST(request: Request) {
     
     const worker_id = Number(workerId);
     const project_id = Number(projectID);
-    // 休憩時間を分単位で計算（例えば、"1:30"を90分に変換）
-    const startTime = `${startHour}:${startMinute}`;
-    const endTime = `${endHour}:${endMinute}`;
-    const breakTime = `${breakHour}:${breakMinute}`;
 
     // worker_project テーブルに指定の worker_id と project_id が存在するか確認
     const [rows] = await pool.query(
@@ -49,7 +42,7 @@ export async function POST(request: Request) {
       );
     }
 
-    console.log(formattedDate, worker_id, project_id, startTime, endTime, breakTime, state)
+    console.log(formattedDate, worker_id, project_id, start_time, end_time, break_time, state)
     
     // // データベースへの挿入クエリ
     const query = `
@@ -57,7 +50,7 @@ export async function POST(request: Request) {
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     // クエリを実行
-    await pool.query(query, [formattedDate, worker_id, project_id, startTime, endTime, breakTime, state]);
+    await pool.query(query, [formattedDate, worker_id, project_id, start_time, end_time, break_time, state]);
 
     // 成功レスポンスを返す
     return NextResponse.json({ message: 'Report added successfully!' }, { status: 201 });

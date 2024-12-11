@@ -13,9 +13,9 @@ export async function GET() {
         GROUP_CONCAT(w.name SEPARATOR ', ') AS worker_names
       FROM 
         project AS p
-      JOIN 
+      LEFT JOIN 
         worker_project AS wp ON p.id = wp.project_id
-      JOIN 
+      LEFT JOIN 
         worker AS w ON wp.worker_id = w.id
       GROUP BY 
         p.id
