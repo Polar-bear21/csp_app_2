@@ -11,7 +11,7 @@ export async function GET() {
         worker.name AS worker_name, 
         company.name AS company_name, 
         worker.user_id, 
-        GROUP_CONCAT(project.name SEPARATOR ', ') AS project_names
+        GROUP_CONCAT(project.code SEPARATOR ', ') AS project_codes
       FROM worker
       LEFT JOIN worker_project ON worker.id = worker_project.worker_id
       LEFT JOIN project ON worker_project.project_id = project.id
