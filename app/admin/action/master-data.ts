@@ -1,3 +1,4 @@
+'use server'
 import pool from "@/lib/db"; // データベースの接続プールをインポート
 
 type Company = {
@@ -7,6 +8,11 @@ type Company = {
 type Project = {
     id: number;
     code: string;
+}
+
+type Worker = {
+  id: number;
+  name: string
 }
 
 export async function getCompany() {
@@ -33,6 +39,21 @@ export async function getProjects() {
       FROM  project;
     `);
     return rows as Project[];
+  } catch (error) {
+    console.error("データ取得エラー:", error);
+    throw new Error("データの取得に失敗しました");
+  }
+}
+
+export async function getWorkers() {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        worker.id AS id,
+        worker.name AS name
+      FROM  worker;
+    `);
+    return rows as Worker[];
   } catch (error) {
     console.error("データ取得エラー:", error);
     throw new Error("データの取得に失敗しました");

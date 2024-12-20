@@ -134,7 +134,7 @@ export function EditDialogP({ report }: { report: Report }) {
             <div>
               <Label htmlFor="status">Status</Label>
               <Select
-                defaultValue={defaultValues.status}
+                defaultValue={status}
                 onValueChange={(value: Report["status"]) => setStatus(value)}
               >
                 <SelectTrigger id="status">

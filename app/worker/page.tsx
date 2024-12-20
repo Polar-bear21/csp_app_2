@@ -1,137 +1,91 @@
 "use client";
+
 import React, { useState } from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { DatePickerDemo } from "@/components/datepicker";
-import { time } from "console";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
+type Company = {
+  id: number;
+  label: string;
+};
+const companys: Company[] = [
+  { id: 1, label: "P001" },
+  { id: 2, label: "P003" },
+  { id: 3, label: "P003" },
+  { id: 4, label: "P004" },
+  { id: 5, label: "P005" },
+  { id: 6, label: "P006" },
+  { id: 7, label: "P007" },
+  { id: 8, label: "P008" },
+  { id: 9, label: "P009" },
+  { id: 10, label: "P0010" },
+];
 
-
-export default function page() {
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [state, setState] = useState("pending");
-  const [workerId, setWorkerId] = useState("");
-  const [projectID, setprojectID] = useState("");
-  const [time, setTime] = useState("08:00");
-  const reportData = {
-    date,
-    workerId,
-    projectID,
-    state,
-  };
-  const handleTime = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    setTime(e.target.value)
-  }
-  const handleSubmit = () => {
-    console.log(reportData);
-  }
+export default function ProjectSelector() {
+  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
 
   return (
     <div>
-      <h3>worker</h3>
-      <Label htmlFor="time">時間</Label>
-      <Input id="time" type="time" value={time} onChange={handleTime}></Input>
-      {time}
-
-      <Dialog>
-      <DialogTrigger asChild>
-        <Button className="shadow-sm"><Plus></Plus>日報追加</Button>
-      </DialogTrigger>
-
-      <DialogContent>
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle>新しい日報を追加</DialogTitle>
-          </DialogHeader>
-          <div className="grid flex-2 space-y-4 py-8">
-            <div>
-              <Label>作業日</Label>
-              <DatePickerDemo date={date} setDate={setDate}></DatePickerDemo>
-            </div>
-            <div>
-              <Label htmlFor="workerId">作業者ID</Label>
-              <Input
-                id="workerId"
-                defaultValue="作業者ID"
-                value={workerId}
-                onChange={(e) => setWorkerId(e.target.value)}
-                type="number"
-                min={0}
-              />
-              <p className="text-xs text-gray-500">半角英数字</p>
-            </div>
-            <div>
-              <Label htmlFor="projectID">工事ID</Label>
-              <Input
-                id="projectID"
-                defaultValue="工事ID"
-                value={projectID}
-                onChange={(e) => setprojectID(e.target.value)}
-                type="number"
-                min={0}
-              />
-              <p className="text-xs text-gray-500">半角英数字</p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <Label>開始時刻</Label>
-                <Input
-                type="time"
-              />
-              </div>
-              <div>
-                <Label>終了時刻</Label>
-                <Input
-                type="time"
-              />
-                
-              </div>
-              <div>
-                <Label>休憩時間</Label>
-                <Input
-                type="time"
-              />
-                
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="status">Status</Label>
-              <Select
-                defaultValue="pending"
-                onValueChange={(value) => setState(value)}
-              >
-                <SelectTrigger id="status">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pending">pending</SelectItem>
-                  <SelectItem value="approved">approved</SelectItem>
-                  <SelectItem value="rejected">rejected</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <DialogFooter className="flex flex-col sm:flex-row sm:justify-between gap-4">
-            <DialogClose asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full sm:w-24"
-              >
-                閉じる
-              </Button>
-            </DialogClose>
-            <Button type="submit" className="w-full sm:w-24">
-              追加
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            className="w-full justify-between"
+          >
+            {selectedCompany ? selectedCompany.label : "会社選択"}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-80 h-100 p-0" align="end">
+          <Command>
+            <CommandInput placeholder="会社検索" className="w-full" />
+            <CommandList>
+              <CommandEmpty>not found</CommandEmpty>
+              <CommandGroup>
+                {companys.map((company) => (
+                  <CommandItem
+                    key={company.id}
+                    onSelect={() => setSelectedCompany(company)}
+                    value={`${company.id}-${company.label}`}
+                  >
+                    <div
+                      className={cn(
+                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                        selectedCompany?.id === company.id
+                          ? "bg-primary text-primary-foreground"
+                          : "opacity-50 [&_svg]:invisible"
+                      )}
+                    >
+                      <Check className={cn("h-4 w-4")} />
+                    </div>
+                    <span className="flex-1">{company.label}</span>
+                    <span className="text-muted-foreground">
+                      ID: {company.id}
+                    </span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {selectedCompany?.id}
+      {selectedCompany?.label}
     </div>
   );
 }

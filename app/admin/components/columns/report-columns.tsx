@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Delete, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EditDialogP } from "../edit/edit-report";
 import { Badge } from "@/components/ui/badge";
@@ -139,7 +139,7 @@ export const columns: ColumnDef<Report>[] = [
               Console Log object
             </DropdownMenuItem>
             <EditDialogP report={report}></EditDialogP>
-            <DeleteDialogR report_id={report.id}></DeleteDialogR>
+            <DeleteDialogR report={report}></DeleteDialogR>
           </DropdownMenuContent>
         </DropdownMenu>
       );

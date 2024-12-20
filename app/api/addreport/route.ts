@@ -41,8 +41,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
-    console.log(formattedDate, worker_id, project_id, start_time, end_time, break_time, state)
     
     // // データベースへの挿入クエリ
     const query = `

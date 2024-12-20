@@ -155,16 +155,6 @@ export function AddWorkerDialog({ projects, companys }: Props) {
                   </Command>
                 </DropdownMenuContent>
               </DropdownMenu>
-              {/* <Select>
-                <SelectTrigger id="company">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Company A">Company A</SelectItem>
-                  <SelectItem value="Company B">Company B</SelectItem>
-                  <SelectItem value="Company C">Company C</SelectItem>
-                </SelectContent>
-              </Select> */}
             </div>
             <div>
               <Label htmlFor="userID">User ID</Label>

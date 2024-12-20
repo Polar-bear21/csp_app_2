@@ -51,7 +51,7 @@ export const columns: ColumnDef<WorkerList>[] = [
             >
               Console Log object
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-rose-600 hover:text-rose-600 focus:text-rose-600">
+            <DropdownMenuItem disabled className="text-rose-600 hover:text-rose-600 focus:text-rose-600">
               <Trash2 />
               Delete
             </DropdownMenuItem>

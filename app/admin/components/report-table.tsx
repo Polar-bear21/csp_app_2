@@ -23,15 +23,18 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuSeparator,
+  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import {
+  Check,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  Eye,
   Search,
+  Settings2,
+  X,
 } from "lucide-react";
 import {
   Select,
@@ -42,13 +45,7 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandList,
-} from "@/components/ui/command";
+import { BatchDeleteDialogR } from "./delete/delete-reports";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
@@ -70,6 +67,8 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   ); // フィルターボタン
+  const [rowSelection, setRowSelection] = useState({}); //
+
   const table = useReactTable({
     data,
     columns,
@@ -77,9 +76,17 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-
+    onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility, // 行可視・不可視
-    state: { columnVisibility, columnFilters },
+    state: { columnVisibility, columnFilters, rowSelection },
+  });
+
+  // 選択された行s
+  const selectrows = table.getFilteredSelectedRowModel().rows;
+  // 選択された行の情報をオブジェクト配列で取得
+  const selectedReports = selectrows.map((row) => {
+    const { id, status } = row.original as { id: number; status: string };
+    return { id, status };
   });
 
   return (
@@ -102,11 +109,40 @@ export function DataTable<TData, TValue>({
             />
           </div>
         )}
+        {/* Status フィルタリングドロップダウン */}
+        {table.getColumn("status") && (
+          <div className="flex items-center space-x-2">
+            <Select
+              // allを追加、デフォルトでallを選択
+              value={
+                (table.getColumn("status")?.getFilterValue() as
+                  | "approved"
+                  | "pending"
+                  | "rejected"
+                  | "all") ?? "all"
+              }
+              // allなら検索に何も入れない
+              onValueChange={(value) =>
+                table
+                  .getColumn("status")
+                  ?.setFilterValue(value === "all" ? undefined : value)
+              }
+            >
+              <SelectTrigger className="w-[100px]">status</SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="approved">承認済み</SelectItem>
+                <SelectItem value="pending">保留中</SelectItem>
+                <SelectItem value="rejected">却下</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-autos h-10">
-                <Eye className="icon" />
+                <Settings2 />
                 View
               </Button>
             </DropdownMenuTrigger>
@@ -155,30 +191,48 @@ export function DataTable<TData, TValue>({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {/* Status フィルタリングドロップダウン */}
-        {table.getColumn("status") && (
-          <div className="flex items-center space-x-2">
-            <Select
-              // value={
-              //   (table.getColumn("status")?.getFilterValue() as string) ?? ""
-              // }
-              onValueChange={(value) =>
-                table.getColumn("status")?.setFilterValue(value)
-              }
-            >
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={null}>All</SelectItem>
-                <SelectItem value="approved">承認済み</SelectItem>
-                <SelectItem value="pending">保留中</SelectItem>
-                <SelectItem value="rejected">却下</SelectItem>
-              </SelectContent>
-            </Select>
+        {selectrows.length > 0 && (
+          <div>
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="ml-autos h-10"
+                  onClick={() => table.resetRowSelection()}
+                >
+                  <X className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+                </Button>
+                <span className="text-sm font-medium">
+                  {selectrows.length}個を選択中
+                </span>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-sm font-medium"
+                  >
+                    一括処理
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  <DropdownMenuItem className="flex items-center">
+                    <Check className="mr-2 h-4 w-4" />
+                    承認
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex items-center">
+                    <X className="mr-2 h-4 w-4" />
+                    承認解除
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <BatchDeleteDialogR selectedReports={selectedReports}/>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         )}
-        
       </div>
       {/* テーブル本体 */}
       <div className="rounded-md border">
@@ -214,30 +268,6 @@ export function DataTable<TData, TValue>({
                         cell.column.columnDef.cell,
                         cell.getContext()
                       )}
-                      {/* {cell.column.columnDef.header === "Status" ? (
-                        <div className="flex items-center">
-                          {cell.getValue() === "approved" && (
-                            <Badge className="bg-emerald-400 text-white hover:bg-green-600">
-                              Approved
-                            </Badge>
-                          )}
-                          {cell.getValue() === "pending" && (
-                            <Badge className="bg-amber-400 text-white hover:bg-yellow-600">
-                              Pending
-                            </Badge>
-                          )}
-                          {cell.getValue() === "rejected" && (
-                            <Badge className="bg-rose-400 text-white hover:bg-red-600">
-                              Rejected
-                            </Badge>
-                          )}
-                        </div>
-                      ) : (
-                        flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )
-                      )} */}
                     </TableCell>
                   ))}
                 </TableRow>

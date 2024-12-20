@@ -9,29 +9,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Trash2 } from "lucide-react";
+import { Trash2, TriangleAlert } from "lucide-react";
 import { useState } from "react";
-import { Report } from "../columns/report-columns";
-import { getProjects } from "../../action/master-data";
 
 interface Props {
-  report: Report;
+  selectedReports: { id: number; status: string }[];
 }
 
-export function DeleteDialogR({ report }: Props) {
+export function BatchDeleteDialogR({ selectedReports }: Props) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  
-  const handleOpenDialog = async () => {
-    setOpen(true);
-    try {
-      const projectData = await getProjects();
-      console.log("取得したプロジェクトデータ:", projectData);
-    } catch (error) {
-      console.error("プロジェクトデータの取得に失敗しました:", error);
-    }
-  };
-
 
   const handleDelete = async () => {
     try {
@@ -41,7 +28,7 @@ export function DeleteDialogR({ report }: Props) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ids: [report.id] }),
+        body: JSON.stringify({ ids: selectedReports.map((row) => row.id) }),
       });
 
       if (!res.ok) {
@@ -56,32 +43,41 @@ export function DeleteDialogR({ report }: Props) {
       setOpen(false);
     }
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <DropdownMenuItem
           onSelect={(e) => e.preventDefault()}
-          className="text-rose-600 hover:text-rose-600 focus:text-rose-600"
-          onClick={handleOpenDialog}
+          className="flex items-center text-red-600 focus:text-red-600 focus:bg-red-50"
         >
-          <Trash2 />
-          Delete
+          <Trash2 className="mr-2 h-4 w-4" />
+          削除
         </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>日報の削除</DialogTitle>
           <DialogDescription>
-            以下の日報記録を削除しますか？
-            この操作は元に戻せません。
+            選択された<strong>{selectedReports.length}</strong>
+            件の日報記録を削除しますか？ この操作は元に戻せません。
           </DialogDescription>
         </DialogHeader>
-        <div className=" space-y-2 my-4 rounded-md bg-muted text-sm p-3">
-          <p>ID: {report.id}</p>
-          <p>日付: {report.date}</p>
-          <p>作業者: {report.worker_name}</p>
-          <p>工番: {report.project_name}</p>
-        </div>
+        {selectedReports.filter((row) => row.status === "approved").length>0 &&
+          <div className=" space-y-2 my-4 rounded-md bg-muted/50 text-sm p-3">
+            <div className="flex items-center mb-2">
+              <TriangleAlert className="mr-2 h-4 w-4 text-yellow-600 flex-shrink-0 " />
+              警告
+            </div>
+            <strong>
+              {
+                selectedReports.filter((row) => row.status === "approved")
+                  .length
+              }
+            </strong>
+            件の承認済みアイテムがあります。削除すると承認済みアイテムも削除されます。
+          </div>
+        }
         <DialogFooter className="gap-2 sm:gap-0">
           <Button
             variant="outline"

@@ -10,7 +10,7 @@ export async function GET() {
         daily_report.id,
         daily_report.date,
         worker.name AS worker_name,
-        project.name AS project_name,
+        project.code AS project_name,
         daily_report.start_time,
         daily_report.end_time,
         daily_report.duration,

@@ -20,19 +20,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { ListItem } from "../../page";
 
-export function AddReportDialog() {
+interface Props {
+  projects: ListItem[];
+  workers: ListItem[];
+}
+
+export function AddReportDialog({ projects, workers }: Props) {
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [workerId, setWorkerId] = useState("");
-  const [projectID, setprojectID] = useState("");
   const [start_time, setStart_time] = useState("");
   const [end_time, setEnd_time] = useState("");
   const [break_time, setBreak_time] = useState("");
   const [state, setState] = useState("pending");
 
+  const [selectedProject, setSelectedProject] = useState<ListItem | null>(null);
+  const [selectedWorker, setSelectedWorker] = useState<ListItem | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // フォームのデフォルトの送信を防ぐ
+    const workerId = selectedWorker?.id;
+    const projectID = selectedProject?.id;
 
     const reportData = {
       date,
@@ -59,8 +82,8 @@ export function AddReportDialog() {
       // 必要に応じて、ダイアログを閉じたり、状態をリセットするロジックを追加することができる
       // 状態のリセットだけ
       setDate(undefined);
-      setWorkerId("");
-      setprojectID("");
+      setSelectedWorker(null);
+      setSelectedProject(null);
       setStart_time("");
       setEnd_time("");
       setBreak_time("");
@@ -79,7 +102,9 @@ export function AddReportDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="shadow-sm"><Plus></Plus>日報追加</Button>
+        <Button className="shadow-sm">
+          <Plus></Plus>日報追加
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
@@ -93,28 +118,99 @@ export function AddReportDialog() {
               <DatePickerDemo date={date} setDate={setDate}></DatePickerDemo>
             </div>
             <div>
-              <Label htmlFor="workerId">作業者ID</Label>
-              <Input
-                id="workerId"
-                defaultValue="作業者ID"
-                value={workerId}
-                onChange={(e) => setWorkerId(e.target.value)}
-                type="number"
-                min={0}
-              />
-              <p className="text-xs text-gray-500">半角英数字</p>
+              <Label htmlFor="workerId">作業者</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className="w-full justify-between"
+                    id="workerId"
+                  >
+                    {selectedWorker ? selectedWorker.label : "作業者選択"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80 h-100 p-0" align="end">
+                  <Command>
+                    <CommandInput placeholder="検索" className="w-full" />
+                    <CommandList>
+                      <CommandEmpty>not found</CommandEmpty>
+                      <CommandGroup>
+                        {workers.map((worker) => (
+                          <CommandItem
+                            key={worker.id}
+                            onSelect={() => setSelectedWorker(worker)}
+                            value={`${worker.id}-${worker.label}`} // ユニークな値を設定
+                          >
+                            <div
+                              className={cn(
+                                "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                selectedWorker?.id === worker.id
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              )}
+                            >
+                              <Check className={cn("h-4 w-4")} />
+                            </div>
+                            <span className="flex-1">{worker.label}</span>
+                            <span className="text-muted-foreground">
+                              ID: {worker.id}
+                            </span>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <div>
-              <Label htmlFor="projectID">工事ID</Label>
-              <Input
-                id="projectID"
-                defaultValue="工事ID"
-                value={projectID}
-                onChange={(e) => setprojectID(e.target.value)}
-                type="number"
-                min={0}
-              />
-              <p className="text-xs text-gray-500">半角英数字</p>
+              <Label htmlFor="project">工番</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className="w-full justify-between"
+                    id="project"
+                  >
+                    {selectedProject ? selectedProject.label : "工番選択"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80 h-100 p-0" align="end">
+                  <Command>
+                    <CommandInput placeholder="工番検索" className="w-full" />
+                    <CommandList>
+                      <CommandEmpty>not found</CommandEmpty>
+                      <CommandGroup>
+                        {projects.map((projects) => (
+                          <CommandItem
+                            key={projects.id}
+                            onSelect={() => setSelectedProject(projects)}
+                          >
+                            <div
+                              className={cn(
+                                "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                selectedProject?.id === projects.id
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              )}
+                            >
+                              <Check className={cn("h-4 w-4")} />
+                            </div>
+                            <span className="flex-1">{projects.label}</span>
+                            <span className="text-muted-foreground">
+                              ID: {projects.id}
+                            </span>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <div>
