@@ -47,6 +47,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { BatchDeleteDialogR } from "./delete/delete-reports";
 
+
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]; // データの定義
