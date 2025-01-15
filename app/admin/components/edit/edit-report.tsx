@@ -79,16 +79,13 @@ export function EditDialogP({ report }: { report: Report }) {
               <DatePickerDemo date={date} setDate={setDate}></DatePickerDemo>
             </div>
             <div>
-              <Label htmlFor="workerId">作業者ID</Label>
+              <Label htmlFor="worker">作業者</Label>
               <Input
-                id="workerId"
-                defaultValue="作業者ID"
-                // value={workerId}
-                // onChange={(e) => setWorkerId(e.target.value)}
-                type="number"
-                min={0}
+                id="worker"
+                disabled
+                className="bg-muted"
+                value={defaultValues.worker_name}
               />
-              <p className="text-xs text-gray-500">半角英数字</p>
             </div>
             <div>
               <Label htmlFor="projectID">工事ID</Label>
@@ -159,7 +156,7 @@ export function EditDialogP({ report }: { report: Report }) {
               </Button>
             </DialogClose>
             <Button type="submit" className="w-full sm:w-24">
-              追加
+              更新
             </Button>
           </DialogFooter>
         </form>

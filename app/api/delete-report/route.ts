@@ -9,6 +9,7 @@ export async function DELETE(request: Request) {
         if (!Array.isArray(ids) || ids.length === 0) {
             return NextResponse.json({ message: 'Invalid request: no IDs provided' }, { status: 400 });
         }
+        
 
         // 動的プレースホルダの生成
         const placeholders = ids.map(() => '?').join(', ');

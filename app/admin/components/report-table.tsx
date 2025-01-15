@@ -46,7 +46,8 @@ import {
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { BatchDeleteDialogR } from "./delete/delete-reports";
-
+import { BatchApprovalDialogR } from "./edit/approval-reports";
+import { BatchRejectedDialogR } from "./edit/rejected-reports";
 
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
@@ -219,16 +220,10 @@ export function DataTable<TData, TValue>({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                  <DropdownMenuItem className="flex items-center">
-                    <Check className="mr-2 h-4 w-4" />
-                    承認
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="flex items-center">
-                    <X className="mr-2 h-4 w-4" />
-                    承認解除
-                  </DropdownMenuItem>
+                  <BatchApprovalDialogR selectedReports={selectedReports} />
+                  <BatchRejectedDialogR selectedReports={selectedReports}/>
                   <DropdownMenuSeparator />
-                  <BatchDeleteDialogR selectedReports={selectedReports}/>
+                  <BatchDeleteDialogR selectedReports={selectedReports} />
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

@@ -37,6 +37,8 @@ const companys: Company[] = [
 
 export default function ProjectSelector() {
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+  const selectedvalue = "P0011";
+  const selecteint = companys.find(c => c.label === selectedvalue);
 
   return (
     <div>
@@ -86,6 +88,7 @@ export default function ProjectSelector() {
       </DropdownMenu>
       {selectedCompany?.id}
       {selectedCompany?.label}
+      {selecteint?.id}{selecteint?.label}
     </div>
   );
 }
