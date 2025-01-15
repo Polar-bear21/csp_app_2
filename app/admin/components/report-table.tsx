@@ -47,6 +47,7 @@ import { BatchDeleteDialogR } from "./delete/delete-reports";
 import { BatchApprovalDialogR } from "./edit/approval-reports";
 import { BatchRejectedDialogR } from "./edit/rejected-reports";
 
+
 // 受け取るデータ
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]; // データの定義
