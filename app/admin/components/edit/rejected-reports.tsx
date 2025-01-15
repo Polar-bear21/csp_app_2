@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
 
 interface Props {

@@ -23,11 +23,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuSeparator,
-  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import {
-  Check,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
