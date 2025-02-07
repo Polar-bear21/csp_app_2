@@ -7,8 +7,19 @@ import { getAllProjects } from "../fetchers/master-data";
 // テーブルに表示するデータ
 async function getData(): Promise<ProjectList[]> {
   //データ取得
-    const response  = await getAllProjects();
-    const data = await response.json()
+    // const response  = await getAllProjects();
+    // const data = await response.json()
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const res = await fetch(`${baseUrl}/api/project-data`, {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const data = await res.json();
+
     // データ整形
   const projectList: ProjectList[] = data.map(
     (item: {project_id: number; project_name: string; project_code: string; worker_names: string }) => ({
