@@ -42,7 +42,7 @@ export default async function page() {
           data={data}
           showButton={true}
           filterValue="project_names"
-          filterLabel="工番"
+          filterLabel="工番名称"
         />
       </div>
     </div>
