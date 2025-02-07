@@ -4,6 +4,7 @@ import { Report, columns } from "./components/columns/report-columns";
 import { AddReportDialog } from "./components/add/add-report-button";
 import { Export_Rbutton } from "./components/export-button";
 import { getProjects, getWorkers } from "./action/master-data";
+import { getAllReports } from "./fetchers/master-data";
 
 // 取得する方のdaily_report型の指定l
 interface RawReportData {
@@ -26,19 +27,25 @@ export interface ListItem {
 
 // テーブルに表示するデータ: データの型は admin/componets/columnsで確認
 async function getData(): Promise<Report[]> {
-  console.log("APIリクエスト開始");
-  // Fetch data from your API here.
-  // エラーが出るから絶対パスで指定
-  // cacheをnoにしないと更新されない
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const res = await fetch(`${baseUrl}/api/report-data`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  const data = await res.json();
-  console.log("APIリクエスト完了");
+  // console.log("APIリクエスト開始");
+  // // Fetch data from your API here.
+  // // エラーが出るから絶対パスで指定
+  // // cacheをnoにしないと更新されない
+  // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  // const res = await fetch(`${baseUrl}/api/report-data`, {
+  //   cache: "no-store",
+  // });
+  // if (!res.ok) {
+  //   throw new Error("Failed to fetch data");
+  // }
+  // const data = await res.json();
+  // console.log("APIリクエスト完了");
+
+  //データ取得
+    const response  = await getAllReports();
+    const data = await response.json()
+    console.log("APIリクエスト完了");
+    // データ整形
   const report: Report[] = data.map((item: RawReportData) => ({
     id: item.id,
     // date: new Date(item.date).toISOString().split("T")[0], // 日付部分のみ抽出

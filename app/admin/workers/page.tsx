@@ -3,6 +3,7 @@ import { columns, WorkerList } from "../components/columns/workerList-columns";
 import { Export_Wbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";
 import { getCompany, getProjects } from "../action/master-data";
+import { getAllWorkers } from "../fetchers/master-data";
 
 // 取得する方のworkerList型の指定
 interface RawWorkerListData {
@@ -15,17 +16,11 @@ interface RawWorkerListData {
 
 // テーブルに表示するデータ
 async function getData(): Promise<WorkerList[]> {
-  // Fetch data from your API here.
-  
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const res = await fetch(`${baseUrl}/api/worker-data`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  const data = await res.json();
+  //データ取得
+  const response  = await getAllWorkers();
+  const data = await response.json()
   console.log("APIリクエスト完了");
+  // データ整形
   const workerList: WorkerList[] = data.map((item: RawWorkerListData) => ({
     id: item.id,
     worker_name: item.worker_name,
