@@ -31,7 +31,7 @@ async function getData(): Promise<WorkerList[]> {
     worker_name: item.worker_name,
     company_name: item.company_name,
     user_id: item.user_id,
-    project_names: item.project_codes,
+    project_codes: item.project_codes,
   }));
 
   return workerList;

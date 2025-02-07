@@ -25,7 +25,7 @@ export const columns: ColumnDef<WorkerList>[] = [
   { accessorKey: "worker_name", header: "氏名" },
   { accessorKey: "company_name", header: "会社名" },
   { accessorKey: "user_id", header: "UserID" },
-  { accessorKey: "project_names", header: "可能工番" },
+  { accessorKey: "project_codes", header: "可能工番" },
   {
     id: "actions",
     header: "action",
