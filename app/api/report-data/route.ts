@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import pool from '@/lib/db';  // データベースの接続プールをインポート
+import { NextResponse } from "next/server";
+import pool from "@/lib/db"; // データベースの接続プールをインポート
 // import client from '@/lib/db';
 
 export async function GET() {
@@ -22,10 +22,15 @@ export async function GET() {
       JOIN project ON daily_report.project_id = project.id
       ORDER BY daily_report.id DESC
     `);
-    return NextResponse.json(rows);
+    const response = NextResponse.json(rows);
+    // キャッシュを無効にするためのヘッダー
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   } catch (error) {
-    console.error('データ取得エラー:', error);
-    return NextResponse.json({ error: 'データ取得に失敗しました' }, { status: 500 });
+    console.error("データ取得エラー:", error);
+    return NextResponse.json(
+      { error: "データ取得に失敗しました" },
+      { status: 500 }
+    );
   }
 }
-
