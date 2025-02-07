@@ -274,11 +274,6 @@ export function AddWorkerDialog({ projects, companys }: Props) {
             </Button>
           </DialogFooter>
         </form>
-        <div>
-          {worker_name}
-          {userID}
-          {password}
-        </div>
       </DialogContent>
     </Dialog>
   );
