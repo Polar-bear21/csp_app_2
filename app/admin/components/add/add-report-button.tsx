@@ -58,7 +58,11 @@ export function AddReportDialog({ projects, workers }: Props) {
     const projectID = selectedProject?.id;
 
     const reportData = {
-      date,
+      date: new Date(date || new Date).toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).replace(/\//g, '-'),
       workerId,
       projectID,
       start_time,
