@@ -88,24 +88,72 @@ export function EditDialogP({ report }: { report: Report }) {
       setProjects(transformedData);
 
       // 初期値の工番に一致する物を探す
-      const foundProject = transformedData.find((project) => project.label === defaultValues.project_name) || null;
+      const foundProject =
+        transformedData.find(
+          (project) => project.label === defaultValues.project_name
+        ) || null;
       setSelectedProject(foundProject);
     }
     fetchProjects();
   }, [defaultValues.project_name]);
+  
+
+  // ダイアログ開閉状態管理
+  const [open, setOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const handleOpenDialog = async () => {
+    setOpen(true);
+  };
+  // APIエンドポイント接続関数
+  const handleUpdating = async () => {
+    // 変更変数
+    const updatedReportData = {
+      id: report.id,
+      date,
+      project_id: selectedProject?.id || null,
+      status,
+      start_time,
+      end_time,
+      break_time,
+    };
+
+    try {
+      setIsUpdating(true);
+      const res = await fetch("/api/update-report", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedReportData),
+      });
+
+      if (!res.ok) {
+        throw new Error("変更に失敗しました");
+      }
+      const result = await res.json();
+      alert(`変更結果: ${result.message}`);
+    } catch (error) {
+      console.error("変更中にエラーが発生しました:", error);
+    } finally {
+      setIsUpdating(false);
+      setOpen(false);
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+        <DropdownMenuItem
+          onSelect={(e) => e.preventDefault()}
+          onClick={handleOpenDialog}
+        >
           <Pencil />
           Edit
         </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent>
-        {/* <form onSubmit={handleSubmit}> */}
-        <form>
+        <form onSubmit={handleUpdating}>
           <DialogHeader>
             <DialogTitle>新しい日報を追加</DialogTitle>
           </DialogHeader>
@@ -221,13 +269,20 @@ export function EditDialogP({ report }: { report: Report }) {
               <Button
                 type="button"
                 variant="outline"
+                onClick={() => setOpen(false)}
+                disabled={isUpdating}
                 className="w-full sm:w-24"
               >
                 閉じる
               </Button>
             </DialogClose>
-            <Button type="submit" className="w-full sm:w-24">
-              更新
+            <Button
+              type="submit"
+              onClick={handleUpdating}
+              disabled={isUpdating}
+              className="w-full sm:w-24"
+            >
+              {isUpdating ? "更新中..." : "更新"}
             </Button>
           </DialogFooter>
         </form>
