@@ -10,8 +10,6 @@ import {
   FileText,
   Users,
   ClipboardList,
-  Search,
-  Settings,
   LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
