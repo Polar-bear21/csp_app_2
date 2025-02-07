@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Check, ChevronsUpDown, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getCompany, getProjects } from "../../action/master-data";
+import { getProjects } from "../../action/master-data";
 import { ListItem } from "../../page";
 import {
   Command,
@@ -92,7 +92,7 @@ export function EditDialogP({ report }: { report: Report }) {
       setSelectedProject(foundProject);
     }
     fetchProjects();
-  }, []);
+  }, [defaultValues.project_name]);
 
   return (
     <Dialog>
