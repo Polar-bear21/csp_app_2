@@ -2,7 +2,7 @@ import { AddOrderDialog } from "../components/add/add-order-button";
 import { columns, ProjectList } from "../components/columns/orderList-columns";
 import { Export_Pbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";
-import { getAllProjects } from "../fetchers/master-data";
+// import { getAllProjects } from "../fetchers/master-data";
 
 // テーブルに表示するデータ
 async function getData(): Promise<ProjectList[]> {
