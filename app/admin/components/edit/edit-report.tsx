@@ -109,7 +109,11 @@ export function EditDialogP({ report }: { report: Report }) {
     // 変更変数
     const updatedReportData = {
       id: report.id,
-      date,
+      date: new Date(date || new Date).toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).replace(/\//g, '-'),
       project_id: selectedProject?.id || null,
       status,
       start_time,
