@@ -22,10 +22,7 @@ export async function GET() {
       JOIN project ON daily_report.project_id = project.id
       ORDER BY daily_report.id DESC
     `);
-    const response = NextResponse.json(rows);
-    // キャッシュを無効にするためのヘッダー
-    response.headers.set("Cache-Control", "no-store, max-age=0");
-    return response;
+    return NextResponse.json(rows);
   } catch (error) {
     console.error("データ取得エラー:", error);
     return NextResponse.json(

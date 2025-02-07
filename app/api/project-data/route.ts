@@ -32,18 +32,3 @@ export async function GET() {
   }
 }
 
-
-/*      SELECT 
-        p.id AS project_id,
-        p.name AS project_name,
-        string_agg(w.name, ', ' ORDER BY w.name) AS worker_names
-      FROM 
-        project AS p
-      JOIN 
-        worker_project AS wp ON p.id = wp.project_id
-      JOIN 
-        worker AS w ON wp.worker_id = w.id
-      GROUP BY 
-        p.id
-      ORDER BY 
-        p.id;*/
