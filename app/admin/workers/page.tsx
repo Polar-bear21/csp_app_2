@@ -1,3 +1,7 @@
+// ファイルの先頭に以下を追加
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 import { AddWorkerDialog } from "../components/add/add-worker-button";
 import { columns, WorkerList } from "../components/columns/workerList-columns";
 import { Export_Wbutton } from "../components/export-button";

@@ -20,12 +20,15 @@ export async function getAllWorkers() {
         ORDER BY id DESC;  -- 会社id順に並び変え
   
       `);
-    return NextResponse.json(rows);
+    return NextResponse.json(rows, {
+      headers: {
+        "Cache-Control": "no-store, max-age=0",},
+    });
   } catch (error) {
     console.error("データ取得エラー:", error);
     return NextResponse.json(
       { error: "データ取得に失敗しました" },
-      { status: 500 }
+      { status: 500 , headers:{"Cache-Control": "no-store, max-age=0",} }
     );
   }
 }
