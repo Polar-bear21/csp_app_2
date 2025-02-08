@@ -12,7 +12,6 @@ async function getData(): Promise<ProjectList[]> {
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const res = await fetch(`${baseUrl}/api/project-data`, {
-      cache: "no-store",
       next: { revalidate: 0 },
     });
     if (!res.ok) {
