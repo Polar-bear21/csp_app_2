@@ -53,12 +53,15 @@ export async function getAllProjects() {
         ORDER BY 
           p.id;
       `);
-    return NextResponse.json(rows);
+      return NextResponse.json(rows, {
+        headers: {
+          "Cache-Control": "no-store, max-age=0",},
+      });
   } catch (error) {
     console.error("データ取得エラー:", error);
     return NextResponse.json(
       { error: "データ取得に失敗しました" },
-      { status: 500 }
+      { status: 500 , headers:{"Cache-Control": "no-store, max-age=0",} }
     );
   }
 }
@@ -83,12 +86,15 @@ export async function getAllReports() {
       JOIN project ON daily_report.project_id = project.id
       ORDER BY daily_report.id DESC
     `);
-    return NextResponse.json(rows);
+    return NextResponse.json(rows, {
+      headers: {
+        "Cache-Control": "no-store, max-age=0",},
+    });
   } catch (error) {
     console.error("データ取得エラー:", error);
     return NextResponse.json(
       { error: "データ取得に失敗しました" },
-      { status: 500 }
+      { status: 500 , headers:{"Cache-Control": "no-store, max-age=0",} }
     );
   }
 }

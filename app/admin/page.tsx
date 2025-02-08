@@ -1,3 +1,7 @@
+// ファイルの先頭に以下を追加
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 // daily-reportテーブル
 import { DataTable } from "./components/report-table";
 import { Report, columns } from "./components/columns/report-columns";

@@ -1,23 +1,27 @@
+// ファイルの先頭に以下を追加
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 import { AddOrderDialog } from "../components/add/add-order-button";
 import { columns, ProjectList } from "../components/columns/orderList-columns";
 import { Export_Pbutton } from "../components/export-button";
 import { DataTable } from "../components/report-table";
-// import { getAllProjects } from "../fetchers/master-data";
+import { getAllProjects } from "../fetchers/master-data";
 
 // テーブルに表示するデータ
 async function getData(): Promise<ProjectList[]> {
   //データ取得
-    // const response  = await getAllProjects();
-    // const data = await response.json()
+    const response  = await getAllProjects();
+    const data = await response.json()
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/project-data`, {
-      next: { revalidate: 0 },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
-    }
-    const data = await res.json();
+    // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    // const res = await fetch(`${baseUrl}/api/project-data`, {
+    //   next: { revalidate: 0 },
+    // });
+    // if (!res.ok) {
+    //   throw new Error("Failed to fetch data");
+    // }
+    // const data = await res.json();
 
     // データ整形
   const projectList: ProjectList[] = data.map(
