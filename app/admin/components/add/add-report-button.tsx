@@ -255,9 +255,9 @@ export function AddReportDialog({ projects, workers }: Props) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pending">pending</SelectItem>
-                  <SelectItem value="approved">approved</SelectItem>
-                  <SelectItem value="rejected">rejected</SelectItem>
+                  <SelectItem value="pending">保留中</SelectItem>
+                  <SelectItem value="approved">承認済み</SelectItem>
+                  <SelectItem value="rejected">却下</SelectItem>
                 </SelectContent>
               </Select>
             </div>

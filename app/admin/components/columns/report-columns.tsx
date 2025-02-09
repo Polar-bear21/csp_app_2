@@ -95,17 +95,17 @@ export const columns: ColumnDef<Report>[] = [
         <div className="flex items-left">
           {status === "approved" && (
             <Badge className="bg-emerald-400 text-white hover:bg-green-600">
-              Approved
+              承認済み
             </Badge>
           )}
           {status === "pending" && (
             <Badge className="bg-amber-400 text-white hover:bg-yellow-600">
-              Pending
+              保留中
             </Badge>
           )}
           {status === "rejected" && (
             <Badge className="bg-rose-400 text-white hover:bg-red-600">
-              Rejected
+              却下
             </Badge>
           )}
         </div>
