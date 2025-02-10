@@ -159,7 +159,7 @@ export function EditDialogP({ report }: { report: Report }) {
       <DialogContent>
         <form onSubmit={handleUpdating}>
           <DialogHeader>
-            <DialogTitle>新しい日報を追加</DialogTitle>
+            <DialogTitle>日報を編集</DialogTitle>
           </DialogHeader>
           <div className="grid flex-2 space-y-4 py-8">
             <div>
