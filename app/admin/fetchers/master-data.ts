@@ -50,8 +50,7 @@ export async function getAllProjects() {
           worker AS w ON wp.worker_id = w.id
         GROUP BY 
           p.id
-        ORDER BY 
-          p.id;
+        ORDER BY p.id DESC;
       `);
       return NextResponse.json(rows, {
         headers: {
